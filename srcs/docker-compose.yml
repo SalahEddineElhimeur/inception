@@ -1,0 +1,33 @@
+services :
+  mariadb :
+    build : ./ requirements/mariadb
+    restart: on-failure
+    volumes:
+      - mariadb:/var/
+    networks : 
+      - inception
+
+  wordpress :
+    build : ./ requirements/wordpress
+    restart: on-failure
+    networks : 
+      - inception
+    depends_on:
+      - mariadb
+
+
+
+  nginx :
+    build : ./ requirements/nginx
+    restart: on-failure
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    networks : 
+      - inception
+
+
+networks:
+  inception:
+    driver: bridge
