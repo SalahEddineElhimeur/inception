@@ -1,0 +1,40 @@
+services :
+  mariadb :
+    build : ./ requirements/mariadb
+    restart: on-failure
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks : 
+      - inception
+  wordpress :
+    build : ./ requirements/wordpress
+    restart: on-failure
+    networks : 
+      - inception
+    depends_on:
+      - mariadb
+
+
+
+  nginx :
+    build : ./ requirements/nginx
+    restart: on-failure
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    networks : 
+      - inception
+
+
+networks:
+  inception:
+    driver: bridge
+
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/sel-hime/data/

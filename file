@@ -1,0 +1,87 @@
+````markdown
+---
+
+## Where Docker Stores Layers & Cache
+
+Docker does **not** keep cached layers in RAM. They are stored permanently on disk.
+
+Find the location:
+
+```bash
+docker info | grep "Docker Root Dir"
+````
+
+Example:
+
+```
+Docker Root Dir: /goinfre/sel-hime/docker
+```
+
+Inside that directory:
+
+```
+/goinfre/sel-hime/docker/
+
+├── overlay2/     → actual files of image layers
+├── image/        → metadata that maps images to layers
+└── buildkit/     → build cache information
+```
+
+### How they work together
+
+`overlay2/` contains the real layer data:
+
+```
+overlay2/
+├── 53acddf5737...
+├── 1hzj3foujf...
+└── ...
+```
+
+Each random ID is a layer created by a Dockerfile instruction.
+
+Example:
+
+```
+FROM debian        → Layer 1
+RUN apt install    → Layer 2
+COPY my.cnf        → Layer 3
+```
+
+Docker stores the files for these layers in `overlay2/`, then uses `image/` metadata to know:
+
+```
+mariadb image → Layer 1 → Layer 2 → Layer 3
+```
+
+`buildkit/` keeps track of build cache keys, allowing Docker to decide:
+
+```
+Same instruction + same files = reuse layer ✅
+Changed instruction = rebuild layer ⚠️
+```
+
+Useful commands:
+
+```bash
+docker system df        # show Docker disk usage
+docker image history    # show image layers
+docker buildx du        # show BuildKit cache usage
+```
+
+**Mental model:**
+
+```
+Dockerfile
+    ↓
+Build layers
+    ↓
+overlay2/ stores layer files
+    ↓
+image/ stores layer relationships
+    ↓
+buildkit/ checks if layers can be reused
+```
+
+```
+```
