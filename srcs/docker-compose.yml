@@ -3,11 +3,14 @@ services :
     build : ./requirements/mariadb
     image : mariadb
     container_name : mariadb
-    restart: on-failure
+    restart: no
     volumes:
       - mariadb:/var/lib/mysql
     networks : 
       - inception
+    secrets:
+      - db_password
+      - db_root_password
 
 
 networks:
@@ -21,3 +24,10 @@ volumes:
       type: none
       o: bind
       device: /home/sel-hime/data/
+
+
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt

@@ -1,18 +1,18 @@
 #!/bin/bash
 set -e
 
-# Read from secret files if they exist, otherwise fall back to env variables
-if [ -f "/run/secrets/db_password" ]; then
-    MYSQL_PASSWORD=$(cat /run/secrets/db_password)
-fi
+MYSQL_PASSWORD=$(cat /run/secrets/db_password) \
+    || { echo "Missing secret: /run/secrets/db_password"; exit 1; }
 
-if [ -f "/run/secrets/db_root_password" ]; then
-    MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
-fi
-
+MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password) \
+    || { echo "Missing secret: /run/secrets/db_root_password"; exit 1; }
 mkdir -p /var/run/mysqld
+# test 1 to fail mkdir /this/path/does/not/exist/and/fails
 chown -R mysql:mysql /var/run/mysqld
-chown -R mysql:mysql /var/lib/mysql
+#chown -R mysql:mysql /var/lib/mysql
+# test 2chown -R test:test2 /var/lib/mysql ---->  chown: invalid user: 'test:test2'
+
+
 
 if [ ! -d "/var/lib/mysql/mysql" ]; then
 
@@ -26,6 +26,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     done
 
     mysql -u root <<-EOSQL
+     THIS_IS_NOT_SQL;
         CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;
         CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
         GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%';
