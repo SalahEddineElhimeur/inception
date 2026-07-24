@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+# Read from secret files if they exist, otherwise fall back to env variables
+if [ -f "/run/secrets/db_password" ]; then
+    MYSQL_PASSWORD=$(cat /run/secrets/db_password)
+fi
+
+if [ -f "/run/secrets/db_root_password" ]; then
+    MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
+fi
+
 mkdir -p /var/run/mysqld
 chown -R mysql:mysql /var/run/mysqld
 chown -R mysql:mysql /var/lib/mysql
@@ -29,5 +38,4 @@ EOSQL
 
 fi
 
-# MariaDB server must be PID 1
-exec mysqld
+exec mysqld_safe --user=mysql
