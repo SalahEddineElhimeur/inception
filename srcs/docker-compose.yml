@@ -1,7 +1,6 @@
 services :
   mariadb :
     build : ./requirements/mariadb
-    image : mariadb
     container_name : mariadb
     restart: no
     volumes:
