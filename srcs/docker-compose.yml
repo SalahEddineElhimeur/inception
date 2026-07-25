@@ -2,7 +2,7 @@ services :
   mariadb :
     build : ./requirements/mariadb
     container_name : mariadb
-    restart: no
+    restart: on-failure
     volumes:
       - mariadb:/var/lib/mysql
     networks : 
@@ -10,6 +10,8 @@ services :
     secrets:
       - db_password
       - db_root_password
+    env_file:
+      - .env
 
 
 networks:
@@ -22,7 +24,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/sel-hime/data/
+      device: /home/${LOGIN}/data/
 
 
 secrets:
