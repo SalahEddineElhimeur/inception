@@ -2,7 +2,8 @@ FROM debian:bullseye
 
 
 RUN apt-get update && apt-get install -y mariadb-server \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*  \
+    && rm -rf /var/lib/mysql/*
 COPY conf/my.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 RUN chmod 644 /etc/mysql/mariadb.conf.d/50-server.cnf
 

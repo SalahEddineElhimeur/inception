@@ -24,7 +24,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/${LOGIN}/data/
+      device: /home/sel-hime/data/
 
 
 secrets:
