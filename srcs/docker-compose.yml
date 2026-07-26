@@ -16,15 +16,17 @@ services :
 
 networks:
   inception:
+    name: inception
     driver: bridge
 
 volumes:
   mariadb:
+    name: mariadb
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/sel-hime/data/
+      device: /home/${LOGIN}/data/
 
 
 secrets:
