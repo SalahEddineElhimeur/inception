@@ -8,8 +8,14 @@ cd /var/www/html
 MYSQL_PASSWORD=$(cat /run/secrets/db_password)
 WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
 WP_USER_PASSWORD=$(cat /run/secrets/wp_user_password)
-sleep 5
 
+
+until mysqladmin ping -h mariadb --silent; do
+    sleep 1
+done
+
+
+if [ ! -f /var/www/html/wp-config.php ]; then
 # 3. DOWNLOAD FIRST 🟢 (This puts the WordPress files in /var/www/html)
 wp core download --allow-root
 
@@ -37,11 +43,12 @@ wp user create \
     --user_pass="$WP_USER_PASSWORD" \
     --role=author \
     --allow-root
+fi
 # 5. Create runtime dir and launch
 mkdir -p /var/run/php
 
-#echo "Starting PHP-FPM..."
-#exec php-fpm7.4 -F
+echo "Starting PHP-FPM..."
+exec php-fpm7.4 -F
 
 echo "Starting PHP built-in web server on port 8080..."
 exec php -S 0.0.0.0:8080
