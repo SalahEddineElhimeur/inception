@@ -15,4 +15,4 @@ COPY /tools/nginx-init.sh /usr/local/bin/nginx-init.sh
 RUN chmod +x /usr/local/bin/nginx-init.sh
 EXPOSE 443
 
-ENTRYPOINT  ["/usr/local/bin/db-init.sh"]
+ENTRYPOINT  ["/usr/local/bin/nginx-init.sh"]
