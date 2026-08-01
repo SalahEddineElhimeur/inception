@@ -22,15 +22,32 @@ services :
     networks : 
       - inception
     secrets:
-      - db_password
       - wp_admin_password
       - wp_user_password
+      - db_password
     env_file:
       - .env
     depends_on:
       - mariadb
+
+  nginx :
+    build : ./requirements/nginx/
+    container_name : nginx
+    restart: on-failure
+    volumes:
+      - wordpress:/var/www/html
+    networks : 
+      - inception
+    secrets:
+      - wp_admin_password
+      - wp_user_password
+      - db_password
+    env_file:
+      - .env
+    depends_on:
+      - wordpress
     ports:
-      - "8080:8080"
+      - "443:443"
 
 networks:
   inception:
@@ -44,14 +61,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/${LOGIN}/data/
+      device: /home/${LOGIN}/data/mariadb
   wordpress:
     name: wordpress
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/${LOGIN}/data2
+      device: /home/${LOGIN}/data/wordpress
 
 
 secrets:
