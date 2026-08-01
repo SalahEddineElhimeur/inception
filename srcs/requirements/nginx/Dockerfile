@@ -10,9 +10,9 @@ RUN mkdir -p /etc/nginx/ssl && \
     -out /etc/nginx/ssl/inception.crt \
     -subj "/CN=sel-hime.42.fr"
 
-COPY conf/nginx.conf /etc/nginx/sites-available/default
+COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 COPY /tools/nginx-init.sh /usr/local/bin/nginx-init.sh
 RUN chmod +x /usr/local/bin/nginx-init.sh
 EXPOSE 443
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT  ["/usr/local/bin/db-init.sh"]
