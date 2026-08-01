@@ -2,6 +2,7 @@
 
 # 1. Force the directory to exist and enter it
 mkdir -p /var/www/html
+chown -R www-data:www-data /var/www/html
 cd /var/www/html
 
 # 2. Read secrets and wait for MariaDB
