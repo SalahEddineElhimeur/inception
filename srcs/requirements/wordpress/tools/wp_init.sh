@@ -47,9 +47,5 @@ chown -R www-data:www-data /var/www/html
 
 mkdir -p /var/run/php
 
-echo "Starting PHP-FPM..."
 exec php-fpm7.4 -F
 
-#echo "Starting PHP built-in web server on port 8080..."
-#exec php -S 0.0.0.0:8080 -t /var/www/html
-#exec php -S 0.0.0.0:8080

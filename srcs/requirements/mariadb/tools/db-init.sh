@@ -31,4 +31,4 @@ EOF
 
 fi
 
-exec mysqld
+exec mysqld --user=mysql
