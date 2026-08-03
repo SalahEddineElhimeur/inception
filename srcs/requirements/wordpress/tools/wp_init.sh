@@ -42,14 +42,39 @@ wp user create \
     --allow-root
 
 #   here the configuration for redis
-wp config set WP_REDIS_HOST redis --allow-root
-wp config set WP_REDIS_PORT 6379 --allow-root
+
+# # Install and activate the Redis Object Cache plugin
+# wp plugin install redis-cache --activate --allow-root \
+#     --path=/var/www/html --allow-root
+
+
+# wp config set WP_REDIS_HOST redis --allow-root
+# wp config set WP_REDIS_PORT 6379 --allow-root
+
+
+# # Enable Redis caching
+# wp redis enable --allow-root
+
 
 # Install and activate the Redis Object Cache plugin
-wp plugin install redis-cache --activate --allow-root
+wp plugin install redis-cache \
+    --activate \
+    --path=/var/www/html \
+    --allow-root
 
-# Enable Redis caching
-wp redis enable --allow-root
+# Configure Redis
+wp config set WP_REDIS_HOST redis \
+    --path=/var/www/html \
+    --allow-root
+
+wp config set WP_REDIS_PORT 6379 \
+    --path=/var/www/html \
+    --allow-root
+
+# Enable Redis object cache
+wp redis enable \
+    --path=/var/www/html \
+    --allow-root
 
 
 fi
