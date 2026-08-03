@@ -6,10 +6,12 @@ FTP_PASSWORD=$(cat /run/secrets/ftp_password)
 mkdir -p /var/run/vsftpd/empty
 
 # Create FTP user with home directory pointing to WordPress volume
-if ! id -u "${FTP_USER}" &>/dev/null; then
+
     useradd -m -d /var/www/html -s /bin/bash "${FTP_USER}"
     echo "${FTP_USER}:${FTP_PASSWORD}" | chpasswd
-fi
 
+
+usermod -aG www-data  $FTP_USER
+chmod -R g+rwX /var/www/html
 echo "Starting vsftpd..."
 exec vsftpd /etc/vsftpd.conf
