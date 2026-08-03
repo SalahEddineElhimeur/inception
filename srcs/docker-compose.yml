@@ -102,4 +102,4 @@ secrets:
   wp_user_password:
     file: ../secrets/wp_user_password.txt
   ftp_password:
-    file:../secrets/ftp_password.txt
+    file: ../secrets/ftp_password.txt
