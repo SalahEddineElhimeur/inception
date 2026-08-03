@@ -40,6 +40,12 @@ wp user create \
     --user_pass="$WP_USER_PASSWORD" \
     --role=author \
     --allow-root
+
+#   here the configuration for redis
+    wp config set WP_CACHE_KEY_SALT sel-hime.42.fr
+    wp config set WP_CACHE true
+
+
 fi
 
 
