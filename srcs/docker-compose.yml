@@ -48,6 +48,13 @@ services :
       - wordpress
     ports:
       - "443:443"
+      
+  redis :
+    build : ./requirements/redis/
+    container_name : redis
+    restart: on-failure
+    networks : 
+      - inception
 
 networks:
   inception:
