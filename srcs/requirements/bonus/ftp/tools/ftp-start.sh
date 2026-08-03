@@ -13,5 +13,7 @@ mkdir -p /var/run/vsftpd/empty
 
 usermod -aG www-data  $FTP_USER
 chmod -R g+rwX /var/www/html
+chmod  g+s /var/www/html
+
 echo "Starting vsftpd..."
 exec vsftpd /etc/vsftpd.conf
