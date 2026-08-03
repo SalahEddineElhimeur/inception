@@ -57,7 +57,7 @@ services :
       - inception
 
   ftp :
-    build : ./requirements/ftp/
+    build : ./requirements/bonus/ftp/
     container_name : ftp
     restart: on-failure
     volumes:
