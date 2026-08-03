@@ -50,7 +50,7 @@ services :
       - "443:443"
       
   redis :
-    build : ./requirements/redis/
+    build : ./requirements/bonus/redis/
     container_name : redis
     restart: on-failure
     networks : 
