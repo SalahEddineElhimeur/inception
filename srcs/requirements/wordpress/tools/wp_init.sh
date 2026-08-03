@@ -42,8 +42,14 @@ wp user create \
     --allow-root
 
 #   here the configuration for redis
-    wp config set WP_CACHE_KEY_SALT sel-hime.42.fr
-    wp config set WP_CACHE true
+wp config set WP_REDIS_HOST redis --allow-root
+wp config set WP_REDIS_PORT 6379 --allow-root
+
+# Install and activate the Redis Object Cache plugin
+wp plugin install redis-cache --activate --allow-root
+
+# Enable Redis caching
+wp redis enable --allow-root
 
 
 fi
