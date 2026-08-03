@@ -8,4 +8,4 @@ COPY /tools/redis-init.sh /usr/local/bin/redis-init.sh
 RUN chmod +x /usr/local/bin/redis-init.sh
 EXPOSE 6379
 
-ENTRYPOINT ["redis-server"]
+ENTRYPOINT ["/usr/local/bin/redis-init.sh"]
