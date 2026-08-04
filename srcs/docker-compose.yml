@@ -51,6 +51,17 @@ services :
       - inception
     ports:
       - "8000:8080"
+  
+  adminer :
+    build : ./requirements/bonus/adminer/
+    container_name : adminer
+    restart: on-failure
+    networks : 
+      - inception
+    depends_on:
+      - mariadb
+    ports:
+      - "8050:8080"
       
   redis :
     build : ./requirements/bonus/redis/
