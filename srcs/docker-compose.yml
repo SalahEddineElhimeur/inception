@@ -38,21 +38,26 @@ services :
       - wordpress:/var/www/html
     networks : 
       - inception
-    secrets:
-      - wp_admin_password
-      - wp_user_password
-      - db_password
-    env_file:
-      - .env
     depends_on:
       - wordpress
     ports:
       - "443:443"
+    
+  website :
+    build : ./requirements/bonus/website/
+    container_name : website
+    restart: on-failure
+    networks : 
+      - inception
+    ports:
+      - "9000:8080"
       
   redis :
     build : ./requirements/bonus/redis/
     container_name : redis
     restart: on-failure
+    depends_on:
+      - mariadb
     networks : 
       - inception
 
@@ -64,6 +69,8 @@ services :
       - wordpress:/var/www/html
     networks : 
       - inception
+    depends_on:
+      - mariadb
     secrets:
       - ftp_password
     env_file:
