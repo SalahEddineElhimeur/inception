@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get install -y php adminer
+RUN apt-get update &&  apt-get install -y php adminer
 
 COPY tools/adminer-init.sh /usr/local/bin/adminer-init.sh
 
