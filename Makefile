@@ -3,6 +3,14 @@ all:
 	mkdir -p /home/sel-hime/data/wordpress
 	docker compose -f ./srcs/docker-compose.yml up -d --build
 
+down:
+	docker compose down -f srcs/docker-compose.yml down
+
+
 clean:
-	docker compose -f ./srcs/docker-compose.yml down
-	# Do not delete the data folders here unless you run 'fclean'
+	docker compose -f ./srcs/docker-compose.yml down -v
+
+fclean: clean
+	docker system prune -af
+
+re: fclean all
