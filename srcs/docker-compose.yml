@@ -38,37 +38,30 @@ services :
       - wordpress:/var/www/html
     networks : 
       - inception
+    env_file:
+      - .env
     depends_on:
       - wordpress
     ports:
       - "443:443"
-    
+
   website :
     build : ./requirements/bonus/website/
     container_name : website
     restart: on-failure
     networks : 
       - inception
-    ports:
-      - "8000:8080"
-  
-  adminer :
-    build : ./requirements/bonus/adminer/
-    container_name : adminer
-    restart: on-failure
-    networks : 
-      - inception
+    env_file:
+      - .env
     depends_on:
-      - mariadb
+      - wordpress
     ports:
-      - "8050:8080"
+      - "8080:8080"
       
   redis :
     build : ./requirements/bonus/redis/
     container_name : redis
     restart: on-failure
-    depends_on:
-      - mariadb
     networks : 
       - inception
 
@@ -80,8 +73,6 @@ services :
       - wordpress:/var/www/html
     networks : 
       - inception
-    depends_on:
-      - mariadb
     secrets:
       - ftp_password
     env_file:
@@ -89,6 +80,43 @@ services :
     ports:
       - "21:21"
       - "21000-21010:21000-21010"
+
+  adminer :
+    build : ./requirements/bonus/adminer/
+    container_name : adminer
+    restart: on-failure
+    networks : 
+      - inception
+    depends_on:
+      - mariadb
+    ports:
+      - "8050:8080"
+  
+  cadvisor:
+    build : ./requirements/bonus/cadvisor
+    container_name : cadvisor
+    restart: on-failure
+    networks : 
+      - inception
+    ports:
+      - "8082:8082"
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:ro
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    - /dev/disk/:/dev/disk:ro
+
+  portainer:
+    build: ./requirements/bonus/portainer
+    container_name: portainer
+    restart: on-failure
+    networks : 
+      - inception
+    ports:
+    - "9443:9443"
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
 networks:
   inception:
     name: inception
