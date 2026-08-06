@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 RUN apt-get update &&  apt-get install -y php adminer \
     && ln -s /usr/share/adminer/adminer.php /var/www/html/index.php

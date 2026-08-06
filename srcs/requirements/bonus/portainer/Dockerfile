@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:bookworm
 
 RUN apt update && apt install -y wget ca-certificates tar \
     && rm -rf /var/lib/apt/lists/*

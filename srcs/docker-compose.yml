@@ -53,8 +53,6 @@ services :
       - inception
     env_file:
       - .env
-    depends_on:
-      - wordpress
     ports:
       - "8080:8080"
       
@@ -64,6 +62,8 @@ services :
     restart: on-failure
     networks : 
       - inception
+    depends_on:
+      - wordpress
 
   ftp :
     build : ./requirements/bonus/ftp/
@@ -80,6 +80,8 @@ services :
     ports:
       - "21:21"
       - "21000-21010:21000-21010"
+    depends_on:
+      - wordpress
 
   adminer :
     build : ./requirements/bonus/adminer/
