@@ -12,5 +12,5 @@ clean:
 
 fclean: clean
 	docker system prune -af
-
+	rm -rf /home/sel-hime/data/*
 re: fclean all
