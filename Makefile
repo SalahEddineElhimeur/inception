@@ -1,5 +1,5 @@
 all:
-	mkdir -p /home/sel-hime/data/mariadb
+	mkdir -p /home/$USER/data/mariadb
 	mkdir -p /home/sel-hime/data/wordpress
 	docker compose -f ./srcs/docker-compose.yml up -d --build
 
@@ -12,5 +12,5 @@ clean:
 
 fclean: clean
 	docker system prune -af
-	rm -rf /home/sel-hime/data/*
+	rm -rf /home/$USER/data/*
 re: fclean all
