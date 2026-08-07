@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir -p /var/www/html
+
 cd /var/www/html
 
 MYSQL_PASSWORD=$(cat /run/secrets/db_password)
@@ -55,5 +55,5 @@ chown -R www-data:www-data /var/www/html
 
 mkdir -p /var/run/php
 
-exec php-fpm7.4 -F
+exec php-fpm8.2 -F
 

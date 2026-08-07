@@ -38,8 +38,6 @@ services :
       - wordpress:/var/www/html
     networks : 
       - inception
-    env_file:
-      - .env
     depends_on:
       - wordpress
     ports:
@@ -51,8 +49,6 @@ services :
     restart: on-failure
     networks : 
       - inception
-    env_file:
-      - .env
     ports:
       - "8080:8080"
       
@@ -94,20 +90,6 @@ services :
     ports:
       - "8050:8080"
   
-  cadvisor:
-    build : ./requirements/bonus/cadvisor
-    container_name : cadvisor
-    restart: on-failure
-    networks : 
-      - inception
-    ports:
-      - "8082:8082"
-    volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:ro
-    - /sys:/sys:ro
-    - /var/lib/docker:/var/lib/docker:ro
-    - /dev/disk/:/dev/disk:ro
 
   portainer:
     build: ./requirements/bonus/portainer
@@ -131,14 +113,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/${LOGIN}/data/mariadb
+      device: /home/${USER}/data/mariadb
   wordpress:
     name: wordpress
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/${LOGIN}/data/wordpress
+      device: /home/${USER}/data/wordpress
 
 
 secrets:
