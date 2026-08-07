@@ -1,5 +1,6 @@
 services :
   mariadb :
+    image: mariadb:img
     build : ./requirements/mariadb
     container_name : mariadb
     restart: on-failure
@@ -14,6 +15,7 @@ services :
       - .env
 
   wordpress :
+    image: wordpress:img
     build : ./requirements/wordpress/
     container_name : wordpress
     restart: on-failure
@@ -31,6 +33,7 @@ services :
       - mariadb
 
   nginx :
+    image: nginx:img
     build : ./requirements/nginx/
     container_name : nginx
     restart: on-failure
@@ -38,21 +41,27 @@ services :
       - wordpress:/var/www/html
     networks : 
       - inception
+    env_file:
+      - .env
     depends_on:
       - wordpress
     ports:
       - "443:443"
 
   website :
+    image: webiste:img
     build : ./requirements/bonus/website/
     container_name : website
     restart: on-failure
     networks : 
       - inception
+    env_file:
+      - .env
     ports:
       - "8080:8080"
       
   redis :
+    image: redis:img
     build : ./requirements/bonus/redis/
     container_name : redis
     restart: on-failure
@@ -62,6 +71,7 @@ services :
       - wordpress
 
   ftp :
+    image: ftp:img
     build : ./requirements/bonus/ftp/
     container_name : ftp
     restart: on-failure
@@ -80,6 +90,7 @@ services :
       - wordpress
 
   adminer :
+    image: adminer:img
     build : ./requirements/bonus/adminer/
     container_name : adminer
     restart: on-failure
@@ -89,9 +100,10 @@ services :
       - mariadb
     ports:
       - "8050:8080"
-  
+
 
   portainer:
+    image: portainer:img
     build: ./requirements/bonus/portainer
     container_name: portainer
     restart: on-failure
@@ -113,14 +125,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/${USER}/data/mariadb
+      device: /home/${LOGIN}/data/mariadb
   wordpress:
     name: wordpress
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/${USER}/data/wordpress
+      device: /home/${LOGIN}/data/wordpress
 
 
 secrets:
